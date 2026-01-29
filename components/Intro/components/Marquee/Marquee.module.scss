@@ -1,0 +1,144 @@
+@use "../../../../styles/_variables" as v;
+
+.marquee {
+  width: 100%;
+  background: v.$bg-page;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+.marquee[data-border="all"] { border: 2px solid v.$text-white; }
+.marquee[data-border="bottom"] { border-bottom: 2px solid v.$text-white; }
+.marquee[data-border="none"] { border: 0; }
+
+.defaultViewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.defaultTrackTop,
+.defaultTrackBottom {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.defaultTrackTop {
+  animation: marqueeLeft 18s linear infinite;
+}
+
+.defaultTrackBottom {
+  animation: marqueeRight 18s linear infinite;
+}
+
+.defaultTrackTop p,
+.defaultTrackBottom p {
+  padding-right: 8rem;
+}
+
+@keyframes marqueeLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes marqueeRight {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+.textDefault {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
+  color: v.$text-white;
+
+  text-transform: uppercase;
+  line-height: 1;
+  text-align: center;
+
+  font-size: 80px;
+  white-space: nowrap;
+
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.line {
+  width: 100%;
+  height: 2px;
+  background: v.$text-white;
+}
+
+.spacer19 { height: 19px; }
+.spacer23 { height: 23px; }
+
+@media (max-width: 1024px) {
+  .textDefault { font-size: 56px; }
+}
+
+@media (max-width: 640px) {
+  .textDefault {
+    font-size: 32px;
+    white-space: normal;
+  }
+}
+
+.scrollViewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.scrollTrack {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.scrollBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-right: 8rem;
+}
+
+.textScroll {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+
+  font-size: 144px;
+  line-height: 1;
+  letter-spacing: -0.06em;
+
+  text-transform: uppercase;
+
+  color: transparent;
+  -webkit-text-stroke: 2px v.$text-scroll;
+
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.bullet {
+  display: inline-block;
+  padding: 0 0.25em;
+}
+
+/* acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+  .defaultTrackTop,
+  .defaultTrackBottom {
+    animation: none;
+    transform: translateX(0);
+  }
+
+  .scrollTrack {
+    transform: translateX(0) !important;
+  }
+}

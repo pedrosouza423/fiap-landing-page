@@ -1,0 +1,25 @@
+.intro {
+  width: 100%;
+}
+
+
+.imageWrapper {
+  max-width: 93.4375rem;
+  margin: 3.3125rem auto 0;
+  padding: 0 1rem;
+
+  position: relative;
+  z-index: 1;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.3;
+  }
+}
+
+.intro > :last-child {
+  margin-top: -4.375rem;
+  position: relative;
+}
