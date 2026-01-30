@@ -1,4 +1,5 @@
 import { Courses } from "@/components/Courses/Courses";
+import { FAQ } from "@/components/FAQ/FAQ";
 import { Header } from "@/components/Header/Header";
 import { Intro } from "@/components/Intro/Intro";
 import { Navbar } from "@/components/Navbar/Navbar"
@@ -14,6 +15,7 @@ export default function Home() {
       <Intro />
       <WaterTransition />
       <Courses />
+      <FAQ />
     </>
   );
 }
