@@ -33,6 +33,12 @@ jest.mock("gsap", () => {
     __esModule: true,
     default: {
       registerPlugin: jest.fn(),
+      set: jest.fn(),
+      context: (fn: () => void, _scope?: unknown) => {
+        // ✅ sem Function (ESLint ok)
+        fn();
+        return { revert: jest.fn() };
+      },
       fromTo,
       to: jest.fn(),
       utils: {
@@ -58,11 +64,24 @@ import { Marquee } from "./Marquee";
 
 describe("Marquee (GSAP)", () => {
   beforeEach(() => {
-    // reseta refs entre testes
     mockTopTween = undefined as unknown as ReturnType<typeof createMockTween>;
     mockBottomTween = undefined as unknown as ReturnType<typeof createMockTween>;
 
     jest.clearAllMocks();
+
+    Object.defineProperty(window, "matchMedia", {
+      writable: true,
+      value: jest.fn().mockImplementation((query: string) => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+    });
   });
 
   it("renders default variant content", () => {
@@ -79,18 +98,18 @@ describe("Marquee (GSAP)", () => {
         .length
     ).toBeGreaterThan(0);
 
-    // default NÃO deve iniciar ScrollTrigger
-    expect(ScrollTrigger.create).not.toHaveBeenCalled();
+    expect(gsap.registerPlugin).not.toHaveBeenCalled();
+    expect(gsap.fromTo).not.toHaveBeenCalled();
+    expect(gsap.set).not.toHaveBeenCalled();
   });
 
-  it("renders scroll variant content (two lines) and creates ScrollTrigger", () => {
+  it("renders scroll variant content (two lines) and wires ScrollTrigger configs into tweens", () => {
     const { container } = render(<Marquee variant="scroll" borderMode="none" />);
 
     const root = container.firstChild as HTMLElement;
     expect(root).toHaveAttribute("data-variant", "scroll");
     expect(root).toHaveAttribute("data-border", "none");
 
-    // duas linhas existem (dois tracks)
     const lines = container.querySelectorAll('[class*="scrollLine"]');
     expect(lines.length).toBe(2);
 
@@ -99,10 +118,18 @@ describe("Marquee (GSAP)", () => {
       screen.getAllByText(/MUITO ALÉM DOS TUTORIAIS/i).length
     ).toBeGreaterThan(0);
 
-    // GSAP loop criado
+    expect(gsap.registerPlugin).toHaveBeenCalledWith(ScrollTrigger);
+
+    expect(gsap.set).toHaveBeenCalledTimes(1);
+
     expect((gsap.fromTo as Mock).mock.calls.length).toBeGreaterThanOrEqual(2);
 
-    // ScrollTrigger criado
-    expect(ScrollTrigger.create).toHaveBeenCalledTimes(1);
+    const calls = (gsap.fromTo as Mock).mock.calls;
+
+    const topVars = calls[0]?.[2] as { scrollTrigger?: unknown };
+    const bottomVars = calls[1]?.[2] as { scrollTrigger?: unknown };
+
+    expect(topVars.scrollTrigger).toBeTruthy();
+    expect(bottomVars.scrollTrigger).toBeTruthy();
   });
 });

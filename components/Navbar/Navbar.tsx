@@ -12,19 +12,17 @@ export function Navbar() {
   const progressRef = useRef<HTMLDivElement | null>(null);
   const [scrolled, setScrolled] = useState(false);
 
-  // troca de background (qualquer scroll > 0)
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 0);
     };
 
-    onScroll(); // <-- MUITO importante: aplica correto já no mount
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // barra de progresso com GSAP
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -40,7 +38,7 @@ export function Navbar() {
         scaleX: 1,
         ease: "none",
         scrollTrigger: {
-          trigger: document.documentElement, // mais confiável que body
+          trigger: document.documentElement,
           start: "top top",
           end: "bottom bottom",
           scrub: true,

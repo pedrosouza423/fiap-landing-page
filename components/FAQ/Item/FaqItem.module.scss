@@ -1,5 +1,4 @@
-$faq-accent: #ed145b;
-$faq-muted: #8a959b;
+@use "../../../styles/variables" as *;
 
 .item {
   display: flex;
@@ -7,11 +6,10 @@ $faq-muted: #8a959b;
   align-items: flex-start;
 }
 
-
 .line {
   width: 3.6695rem;
   height: 0;
-  border-top: 0.125rem solid $faq-muted;
+  border-top: 0.125rem solid $border-muted;
   opacity: 0.5;
   margin-bottom: 1.25rem;
 }
@@ -24,9 +22,8 @@ $faq-muted: #8a959b;
   line-height: 1.5rem;
   letter-spacing: -0.01em;
   text-transform: uppercase;
-  color: $faq-muted;
+  color: $text-muted;
 }
-
 
 .answer {
   margin: 0.75rem 0 0;
@@ -35,19 +32,18 @@ $faq-muted: #8a959b;
   font-size: 1rem;
   line-height: 1.1875rem;
   letter-spacing: 0;
-  color: #ffffff;
+  color: $text-white;
   max-width: 26rem;
 }
-
 
 .active {
   .line {
     width: 23.4285rem;
-    border-top-color: $faq-accent;
+    border-top-color: $accent-primary;
     opacity: 1;
   }
 
   .question {
-    color: #ffffff;
+    color: $text-white;
   }
 }

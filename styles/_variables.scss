@@ -1,8 +1,15 @@
-// Backgrounds
+/* Backgrounds */
 $bg-page: #000000;
 $bg-header: #202121;
 
-// Text colors
-$text-overlay: #141313;
+/* Brand / Accent */
+$accent-primary: #ed145b;
+
+/* Text */
 $text-white: #ffffff;
+$text-overlay: #141313;
 $text-scroll: #545555;
+$text-muted: #8a959b;
+
+/* Borders / Lines */
+$border-muted: $text-muted;

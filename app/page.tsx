@@ -1,9 +1,9 @@
-import { Courses } from "@/components/Courses/Courses";
-import { FAQ } from "@/components/FAQ/FAQ";
-import { Header } from "@/components/Header/Header";
-import { Intro } from "@/components/Intro/Intro";
-import { Navbar } from "@/components/Navbar/Navbar"
+import { Navbar } from "@/components/Navbar";
+import { Header } from "@/components/Header";
+import { Intro } from "@/components/Intro";
 import { WaterTransition } from "@/components/WaterTransition";
+import { Courses } from "@/components/Courses";
+import { FAQ } from "@/components/FAQ";
 
 export default function Home() {
   return (

@@ -4,7 +4,7 @@ export type CourseMode = "remoto" | "live" | "multimídia";
 
 export type CourseItem = {
   title: string;
-  tags: string[]; // ex: ["remoto", "live", "multimídia"]
+  tags: string[];
 };
 
 export type CoursesMock = {

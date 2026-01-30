@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { Intro } from "./Intro";
 
-// Aqui a gente isola o Intro: não testa o Marquee neste arquivo
 jest.mock("./components/Marquee/Marquee", () => ({
   Marquee: ({ variant, borderMode }: { variant: string; borderMode: string }) => (
     <div data-testid={`marquee-${variant}`} data-border={borderMode} />
