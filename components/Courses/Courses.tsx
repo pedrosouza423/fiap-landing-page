@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 
 import styles from "./Courses.module.scss";
@@ -19,9 +19,21 @@ export const Courses = () => {
   const isAnimatingRef = useRef(false);
   const nextRef = useRef<CourseCategory | null>(null);
 
+  const [isMobile, setIsMobile] = useState(false);
+
   const prefersReduced =
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ✅ detecta mobile (414 do figma e abaixo)
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 26rem)");
+    const update = () => setIsMobile(mq.matches);
+
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   const getNodes = () => {
     const root = rootRef.current;
@@ -33,7 +45,7 @@ export const Courses = () => {
     return { root, title, rows };
   };
 
-  const handleChange = (next: CourseCategory) => {
+  const handleChangeDesktop = (next: CourseCategory) => {
     if (next === active) return;
     if (isAnimatingRef.current) return;
 
@@ -65,7 +77,6 @@ export const Courses = () => {
     tl.add(() => {
       const value = nextRef.current;
       nextRef.current = null;
-
       if (value) setActive(value);
     });
 
@@ -94,31 +105,94 @@ export const Courses = () => {
     });
   };
 
+  // ✅ mobile: accordion (abre conteúdo abaixo do item)
+  const handleToggleMobile = (cat: CourseCategory) => {
+    setActive((prev) => (prev === cat ? prev : cat));
+  };
+
   return (
     <section className={styles.courses}>
       <div className={styles.container}>
-        <div className={styles.headerRow}>
-          <CoursesHeader
-            title={coursesMock.header.title}
-            subtitle={coursesMock.header.subtitle}
-          />
+        {/* ===== DESKTOP ===== */}
+        {!isMobile && (
+          <>
+            <div className={styles.headerRow}>
+              <CoursesHeader
+                title={coursesMock.header.title}
+                subtitle={coursesMock.header.subtitle}
+              />
 
-          <CoursesTabs
-            categories={coursesMock.categories}
-            active={active}
-            onChange={handleChange}
-          />
-        </div>
+              <CoursesTabs
+                categories={coursesMock.categories}
+                active={active}
+                onChange={handleChangeDesktop}
+              />
+            </div>
 
-        <div className={styles.content}>
-          <div className={styles.contentAnim} ref={rootRef}>
-            <h3 className={styles.categoryTitle} data-role="category-title">
-              {active}
-            </h3>
+            <div className={styles.content}>
+              <div className={styles.contentAnim} ref={rootRef}>
+                <h3 className={styles.categoryTitle} data-role="category-title">
+                  {active}
+                </h3>
 
-            <CoursesList items={items} />
-          </div>
-        </div>
+                <CoursesList items={items} />
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* ===== MOBILE (Figma 414) ===== */}
+        {isMobile && (
+          <>
+            <div className={styles.headerRowMobile}>
+              <CoursesHeader
+                title={coursesMock.header.title}
+                subtitle={coursesMock.header.subtitle}
+              />
+            </div>
+
+            <div className={styles.mobileAccordion} aria-label="Categorias de cursos">
+              {coursesMock.categories.map((cat) => {
+                const isActive = active === cat.key;
+                const catItems = coursesMock.itemsByCategory[cat.key];
+
+                return (
+                  <div key={cat.key} className={styles.mobileBlock}>
+                    <button
+                      type="button"
+                      className={styles.mobileRow}
+                      onClick={() => handleToggleMobile(cat.key)}
+                      aria-expanded={isActive}
+                    >
+                      <span className={styles.mobileLabel}>
+                        {cat.label.toUpperCase()}
+                      </span>
+
+                      <span
+                        className={`${styles.mobileToggle} ${
+                          isActive ? styles.mobileToggleActive : ""
+                        }`}
+                        aria-hidden="true"
+                      >
+                        <span className={styles.mobileSymbol}>
+                          {isActive ? "−" : "+"}
+                        </span>
+                      </span>
+                    </button>
+
+                    <div
+                      className={`${styles.mobilePanel} ${
+                        isActive ? styles.mobilePanelOpen : ""
+                      }`}
+                    >
+                      <CoursesList items={catItems} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

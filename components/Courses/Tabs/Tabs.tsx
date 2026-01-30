@@ -33,7 +33,6 @@ export const CoursesTabs = ({ categories, active, onChange }: CoursesTabsProps) 
     if (!el) return;
 
     gsap.killTweensOf(el);
-
     gsap.fromTo(
       el,
       { scaleX: 0 },

@@ -15,6 +15,8 @@
   box-sizing: border-box;
 }
 
+/* ===== DESKTOP ===== */
+
 .headerRow {
   width: 100%;
   height: 6.75rem;
@@ -43,4 +45,128 @@
   text-transform: capitalize;
   color: $text-white;
   margin: 0 0 5.3125rem;
+}
+
+/* ===== MOBILE (414) ===== */
+
+.headerRowMobile {
+  padding-top: 0;
+}
+
+/* container do accordion */
+.mobileAccordion {
+  padding-top: 2.25rem; /* espaço após o header no mobile */
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem; /* Tecnologia / Inovação / Negócios */
+  width: 100%;
+}
+
+.mobileBlock {
+  width: 100%;
+}
+
+/* linha do item (texto + bolinha) */
+.mobileRow {
+  width: 100%;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  cursor: pointer;
+  text-align: left;
+}
+
+.mobileLabel {
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  font-size: 2.0625rem; /* ~33px */
+  line-height: 100%;
+  letter-spacing: 0;
+  color: $text-white;
+}
+
+/* bolinha */
+.mobileToggle {
+  width: 3.7318rem;  /* ~59.71px */
+  height: 3.7372rem; /* ~59.79px */
+  border: 0.0625rem solid $accent-primary;
+  border-radius: 9999px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  color: $accent-primary;
+
+  user-select: none;
+}
+
+/* símbolo (+ / −) */
+.mobileSymbol {
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-align: center;
+  vertical-align: middle;
+
+  /* + no figma: 37px | line-height 27px */
+  font-size: 2.3125rem; /* 37px */
+  line-height: 1.6875rem; /* 27px */
+}
+
+/* aberto (bolinha preenchida + "−" 30px) */
+.mobileToggleActive {
+  background: $accent-primary;
+  border-color: $accent-primary;
+  color: $bg-page; /* preto */
+
+  .mobileSymbol {
+    font-size: 1.875rem; /* 30px */
+    line-height: 1.6875rem; /* 27px */
+  }
+}
+
+/* painel animado */
+.mobilePanel {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-0.4rem);
+
+  /* ✅ animação suave */
+  transition:
+    max-height 640ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 420ms ease,
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* distância do row até começar a lista */
+  margin-top: 1.75rem;
+}
+
+.mobilePanelOpen {
+  max-height: 60rem; /* suficientemente alto para a lista */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* breakpoint do figma mobile */
+@media (max-width: 26rem) {
+  .courses {
+    margin-bottom: 10rem;
+  }
+
+  .headerRow {
+    display: none;
+  }
+
+  .content {
+    display: none;
+  }
 }

@@ -1,5 +1,7 @@
 @use "../../../styles/variables" as *;
 
+/* ===== DESKTOP (original) ===== */
+
 .list {
   list-style: none;
   padding: 0;
@@ -42,4 +44,60 @@
   text-transform: uppercase;
   color: $text-muted;
   white-space: nowrap;
+}
+
+/* ===== MOBILE (Figma 414px) ===== */
+
+@media (max-width: 26rem) {
+  .list {
+    width: 100%;
+  }
+
+  .row {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+
+    /* espaço entre tag e título (~6px) */
+    gap: 0.375rem;
+
+    /* 20px em cima + 20px embaixo da barra */
+    padding: 1.25rem 0;
+
+    border-bottom: 0.0625rem solid $border-muted;
+  }
+
+  /* Tag fica em cima */
+  .tags {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    order: 0;
+  }
+
+  .tag {
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    font-size: 0.625rem; /* 10px */
+    line-height: 100%;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: $text-muted;
+    white-space: nowrap;
+  }
+
+  /* Título fica embaixo */
+  .courseTitle {
+    order: 1;
+
+    font-family: Roboto, sans-serif;
+    font-weight: 300;
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.875rem; /* 30px */
+    letter-spacing: 0;
+    color: $text-white;
+
+    white-space: normal;
+  }
 }
