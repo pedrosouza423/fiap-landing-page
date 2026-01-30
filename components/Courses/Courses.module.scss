@@ -1,19 +1,18 @@
-
 @use "../../styles/variables" as *;
 
 .courses {
   width: 100%;
   background: $bg-page;
   color: $text-white;
-
   margin-bottom: 18.5rem;
 }
 
 .container {
   width: 100%;
   max-width: 84.625rem;
-  padding: 0 1.5rem; 
-  margin: 0 auto; 
+  padding: 0 1.5rem;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .headerRow {
@@ -30,6 +29,10 @@
   padding-top: 6.5625rem;
 }
 
+.contentAnim {
+  will-change: clip-path;
+  clip-path: inset(0% 0% 0% 0%);
+}
 
 .categoryTitle {
   font-family: Montserrat, sans-serif;
@@ -39,6 +42,5 @@
   letter-spacing: 0;
   text-transform: capitalize;
   color: $text-white;
-  margin: 0;
-  margin-bottom: 5.3125rem;
+  margin: 0 0 5.3125rem;
 }
