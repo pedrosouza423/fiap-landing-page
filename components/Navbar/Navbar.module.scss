@@ -1,4 +1,4 @@
-@use "../../styles/variables" as v;
+@use "../../styles/variables" as *;
 
 .wrapper {
   position: sticky;
@@ -12,11 +12,36 @@
   align-items: center;
   justify-content: center;
 
-  background-color: v.$bg-page;
-
+  background-color: $bg-page;
   transition: background-color 0.3s ease;
+
+  /* pra barra ficar presa no rodapé do navbar */
+  position: sticky;
 }
 
+/* qualquer scroll > 0 */
 .scrolled {
-  background-color: v.$bg-header;
+  background-color: $bg-header;
+}
+
+/* Barra embaixo */
+.progressWrapper {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 3px;
+
+  background: transparent;
+  overflow: hidden;
+}
+
+.progressBar {
+  width: 100%;
+  height: 100%;
+  background-color: #ed145b;
+
+  transform-origin: left center;
+  transform: scaleX(0);
 }

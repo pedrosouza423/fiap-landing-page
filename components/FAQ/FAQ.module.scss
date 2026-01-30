@@ -1,4 +1,5 @@
-@import "@/styles/variables.scss";
+@use "../../styles/variables" as *;
+
 
 $faq-accent: #ed145b;
 $faq-muted: #8a959b;

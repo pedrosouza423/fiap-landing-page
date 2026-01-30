@@ -1,4 +1,4 @@
-@use "../../styles/variables" as v;
+@use "../../styles/variables" as *;
 @use "../../styles/mixins" as m;
 
 .wrapper {
@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
 
-  background: v.$bg-page;
+  background: $bg-page;
   overflow: hidden;
 }
 
@@ -23,7 +23,7 @@
   width: min(79.8125rem, 100%);
   margin: 0;
 
-  color: v.$text-white;
+  color: $text-white;
   font-family: var(--font-montserrat);
   font-weight: 400;
 
@@ -59,7 +59,7 @@
   width: min(80.85rem, 100%);
   text-align: left;
 
-  color: v.$text-overlay;
+  color: $text-overlay;
 
   font-family: var(--font-montserrat);
   font-weight: 900;

@@ -1,55 +1,62 @@
 import { render, screen, act } from "@testing-library/react";
 import { Navbar } from "./Navbar";
+import styles from "./Navbar.module.scss";
 
 describe("Navbar component", () => {
   beforeEach(() => {
+    // garante scrollY mutável
     Object.defineProperty(window, "scrollY", { value: 0, writable: true });
+
+    // mock scrollTo pra atualizar scrollY
+    Object.defineProperty(window, "scrollTo", {
+      value: (_x: number, y: number) => {
+        Object.defineProperty(window, "scrollY", { value: y, writable: true });
+      },
+      writable: true,
+    });
   });
 
   it("renders logo image with correct alt", () => {
     render(<Navbar />);
-
-    const logo = screen.getByAltText("FIAP");
-    expect(logo).toBeInTheDocument();
+    expect(screen.getByAltText("FIAP")).toBeInTheDocument();
   });
 
-  it("does not add scrolled class initially", () => {
+  it("does not add scrolled class initially (top of the page)", () => {
     const { container } = render(<Navbar />);
-
     const header = container.querySelector("header");
     expect(header).toBeInTheDocument();
 
-    expect(header?.className).not.toContain("scrolled");
+    expect(header).not.toHaveClass(styles.scrolled);
   });
 
-  it("adds scrolled class when page is scrolled beyond 40px", () => {
+  it("adds scrolled class when page is scrolled (> 0)", () => {
     const { container } = render(<Navbar />);
     const header = container.querySelector("header");
     expect(header).toBeInTheDocument();
 
     act(() => {
-      Object.defineProperty(window, "scrollY", { value: 41, writable: true });
+      window.scrollTo(0, 1);
       window.dispatchEvent(new Event("scroll"));
     });
 
-    expect(header?.className).toContain("scrolled");
+    expect(header).toHaveClass(styles.scrolled);
   });
 
-  it("removes scrolled class when scroll goes back to <= 40px", () => {
+  it("removes scrolled class when scroll goes back to top (0)", () => {
     const { container } = render(<Navbar />);
     const header = container.querySelector("header");
     expect(header).toBeInTheDocument();
 
     act(() => {
-      Object.defineProperty(window, "scrollY", { value: 60, writable: true });
+      window.scrollTo(0, 120);
       window.dispatchEvent(new Event("scroll"));
     });
-    expect(header?.className).toContain("scrolled");
+    expect(header).toHaveClass(styles.scrolled);
 
     act(() => {
-      Object.defineProperty(window, "scrollY", { value: 40, writable: true });
+      window.scrollTo(0, 0);
       window.dispatchEvent(new Event("scroll"));
     });
-    expect(header?.className).not.toContain("scrolled");
+    expect(header).not.toHaveClass(styles.scrolled);
   });
 });

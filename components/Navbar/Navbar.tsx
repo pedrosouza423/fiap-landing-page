@@ -1,20 +1,64 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Navbar.module.scss";
 
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 export function Navbar() {
+  const headerRef = useRef<HTMLElement | null>(null);
+  const progressRef = useRef<HTMLDivElement | null>(null);
   const [scrolled, setScrolled] = useState(false);
 
+  // troca de background (qualquer scroll > 0)
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 0);
+    };
+
+    onScroll(); // <-- MUITO importante: aplica correto já no mount
     window.addEventListener("scroll", onScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // barra de progresso com GSAP
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const bar = progressRef.current;
+    if (!bar) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const tween = gsap.fromTo(
+      bar,
+      { scaleX: 0 },
+      {
+        scaleX: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: document.documentElement, // mais confiável que body
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true,
+        },
+      }
+    );
+
+    return () => {
+      tween.kill();
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
+  }, []);
+
   return (
-    <header className={`${styles.wrapper} ${scrolled ? styles.scrolled : ""}`}>
+    <header
+      ref={headerRef}
+      className={`${styles.wrapper} ${scrolled ? styles.scrolled : ""}`}
+    >
       <Image
         src="/assets/logo-fiap.svg"
         alt="FIAP"
@@ -22,6 +66,10 @@ export function Navbar() {
         height={39}
         priority
       />
+
+      <div className={styles.progressWrapper} aria-hidden="true">
+        <div ref={progressRef} className={styles.progressBar} />
+      </div>
     </header>
   );
 }
