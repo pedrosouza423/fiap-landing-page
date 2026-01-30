@@ -78,21 +78,15 @@ export function Marquee({
 
     if (!viewport || !top || !bottom) return;
 
-    // acessibilidade
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    // ===== Ajustes finos =====
-    // Mesma velocidade nas duas linhas + um pouco mais lento
-    const DISTANCE = 32; // menor = desloca menos ao longo do scroll (mais “lento” visualmente)
-    const SCRUB = 2.4; // maior = mais suave e mais lento para responder
-    const BOTTOM_OFFSET = -25; // começa a 2ª linha um pouco mais à esquerda
+    const DISTANCE = 32;
+    const SCRUB = 2.4;
+    const BOTTOM_OFFSET = -25;
 
-    // começa a 2ª linha um pouco mais à esquerda
     gsap.set(bottom, { xPercent: BOTTOM_OFFSET });
 
-    // garante cleanup certo no Next/React
     const ctx = gsap.context(() => {
-      // Linha de cima: vai para a esquerda quando scroll desce, e volta quando scroll sobe
       gsap.fromTo(
         top,
         { xPercent: 0 },
@@ -108,7 +102,6 @@ export function Marquee({
         }
       );
 
-      // Linha de baixo: oposta (direita)
       gsap.fromTo(
         bottom,
         { xPercent: BOTTOM_OFFSET },

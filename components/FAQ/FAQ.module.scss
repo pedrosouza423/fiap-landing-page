@@ -4,7 +4,6 @@
   width: 100%;
   background: $bg-page;
   color: $text-white;
-
   margin-bottom: 24.125rem;
 }
 
@@ -45,4 +44,34 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: 6.25rem;
   row-gap: 5.625rem;
+}
+
+@media (max-width: 26rem) {
+  .faq {
+    margin-bottom: 10rem;
+  }
+
+  .title {
+    font-size: 3.25rem;
+    line-height: 3.75rem;
+    letter-spacing: -0.03em;
+  }
+
+  .subtitle {
+    margin-top: 0.5rem;
+    font-size: 1.125rem;
+    line-height: 1.6875rem;
+    letter-spacing: 0.03em;
+  }
+
+  .mobileList {
+    margin-top: 2.658rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+
+  .grid {
+    display: none;
+  }
 }

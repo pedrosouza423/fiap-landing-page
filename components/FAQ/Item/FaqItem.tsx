@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./FaqItem.module.scss";
 import type { FaqItemData } from "../types";
 
@@ -12,14 +12,9 @@ type FaqItemProps = {
   onToggle: () => void;
 };
 
-export const FaqItem = ({
-  item,
-  isActive,
-  onEnter,
-  onLeave,
-  onToggle,
-}: FaqItemProps) => {
+export const FaqItem = ({ item, isActive, onEnter, onLeave, onToggle }: FaqItemProps) => {
   const [canHover, setCanHover] = useState(true);
+  const rootRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const mq = window.matchMedia("(hover: hover)");
@@ -30,22 +25,26 @@ export const FaqItem = ({
     return () => mq.removeEventListener("change", update);
   }, []);
 
+  const handleMobileToggle = () => {
+    onToggle();
+    requestAnimationFrame(() => rootRef.current?.blur());
+  };
+
   return (
     <article
+      ref={(n) => {
+        rootRef.current = n;
+      }}
       className={`${styles.item} ${isActive ? styles.active : ""}`}
-      
       onMouseEnter={canHover ? onEnter : undefined}
       onMouseLeave={canHover ? onLeave : undefined}
-      
       onFocus={canHover ? onEnter : undefined}
       onBlur={canHover ? onLeave : undefined}
-      
-      onPointerDown={!canHover ? onToggle : undefined}
+      onClick={!canHover ? handleMobileToggle : undefined}
       data-testid={`faq-item-${item.id}`}
-      
-      tabIndex={canHover ? 0 : undefined}
-      role={canHover ? "button" : undefined}
-      aria-expanded={canHover ? isActive : undefined}
+      tabIndex={0}
+      role="button"
+      aria-expanded={isActive}
     >
       <span className={styles.line} aria-hidden="true" />
       <h3 className={styles.question}>{item.question}</h3>

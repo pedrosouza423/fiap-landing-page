@@ -3,7 +3,7 @@
 
 .wrapper {
   position: relative;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 5rem);
 
   display: flex;
   align-items: center;
@@ -66,24 +66,53 @@
   letter-spacing: 0;
 }
 
-/* =========================
-   RESPONSIVO (Mobile) - Need to be fixed
-========================= */
-@media (max-width: 768px) {
-  .title {
-    font-size: 3.75rem;   
-    line-height: 4.375rem;
-    width: 100%;
+@media (max-width: 26rem) {
+  .wrapper {
+    display: block;
+    min-height: calc(100vh - 5rem);
   }
 
   .bgText {
-    font-size: 6.25rem; 
-    width: 100%;
+    left: 1.3125rem;
+    top: 11.375rem;
+    transform: none;
+
+    width: 23.125rem;
+    height: 7.625rem;
+
+    text-align: left;
+
+    font-size: 6.25rem;
+    line-height: 1;
+    letter-spacing: 0;
+
+    color: #141313;
+  }
+
+  .title {
+    position: absolute;
+    z-index: 2;
+
+    left: 2.875rem;
+    top: 12rem;
+
+    width: 20rem;
+    height: 4.625rem;
+
+    bottom: auto;
+
+    font-size: 1.875rem;
+    line-height: 1;
+    letter-spacing: 0;
+
+    text-align: left;
+  }
+
+  .titleLineCenter {
     text-align: center;
   }
 
-  .titleLineCenter,
   .titleLineLeft {
-    text-align: center;
+    text-align: left;
   }
 }

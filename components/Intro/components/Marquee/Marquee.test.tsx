@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import type { Mock } from "jest-mock";
 
-// Função normal (hoisted)
 function createMockTween() {
   return {
     timeScale: jest.fn(),
@@ -9,13 +8,11 @@ function createMockTween() {
   };
 }
 
-// IMPORTANT: usar let/var, porque jest.mock é hoisted
 let mockTopTween: ReturnType<typeof createMockTween>;
 let mockBottomTween: ReturnType<typeof createMockTween>;
 
 jest.mock("gsap", () => {
   const fromTo = jest.fn((..._args: unknown[]) => {
-    // retorna top na 1ª chamada, bottom na 2ª, e depois cria novos (segurança)
     if (!mockTopTween) {
       mockTopTween = createMockTween();
       return mockTopTween;
@@ -35,7 +32,6 @@ jest.mock("gsap", () => {
       registerPlugin: jest.fn(),
       set: jest.fn(),
       context: (fn: () => void, _scope?: unknown) => {
-        // ✅ sem Function (ESLint ok)
         fn();
         return { revert: jest.fn() };
       },

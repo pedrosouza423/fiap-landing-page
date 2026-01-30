@@ -105,7 +105,6 @@ export const Courses = () => {
     });
   };
 
-  // ✅ mobile: accordion (abre conteúdo abaixo do item)
   const handleToggleMobile = (cat: CourseCategory) => {
     setActive((prev) => (prev === cat ? prev : cat));
   };
@@ -113,7 +112,6 @@ export const Courses = () => {
   return (
     <section className={styles.courses}>
       <div className={styles.container}>
-        {/* ===== DESKTOP ===== */}
         {!isMobile && (
           <>
             <div className={styles.headerRow}>
@@ -141,7 +139,6 @@ export const Courses = () => {
           </>
         )}
 
-        {/* ===== MOBILE (Figma 414) ===== */}
         {isMobile && (
           <>
             <div className={styles.headerRowMobile}>

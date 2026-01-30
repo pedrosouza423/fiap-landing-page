@@ -18,7 +18,9 @@ export function Intro() {
         />
       </div>
 
-      <Marquee variant="scroll" borderMode="none" />
+      <div className={styles.marqueeBottom}>
+        <Marquee variant="scroll" borderMode="none" />
+      </div>
     </section>
   );
 }

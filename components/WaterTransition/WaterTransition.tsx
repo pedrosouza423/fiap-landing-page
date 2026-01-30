@@ -1,19 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-
 import styles from "./WaterTransition.module.scss";
 
-const TOTAL_FRAMES = 192;
-
 export function WaterTransition() {
-  const [frame] = useState(0); // por enquanto fixo
+  const [isMobile, setIsMobile] = useState(false);
 
-  const src = `/assets/water-transition/water_${String(frame).padStart(
-    3,
-    "0"
-  )}.png`;
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 26rem)");
+    const update = () => setIsMobile(mq.matches);
+
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  if (isMobile) return null;
 
   return (
     <section className={styles.water}>
@@ -21,8 +24,7 @@ export function WaterTransition() {
         <Image
           src="/assets/water-transition/water_150.jpg"
           alt="Animação de fluxo de água"
-          width={1920}
-          height={1080}
+          fill
           className={styles.image}
           priority
           draggable={false}

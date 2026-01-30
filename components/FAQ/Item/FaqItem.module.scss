@@ -9,25 +9,38 @@
   outline: none;
 
   -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
+/* desktop accessibility */
 .item:focus-visible {
   outline: 0.125rem solid rgba(255, 255, 255, 0.25);
   outline-offset: 0.25rem;
 }
 
+/* ================= LINE ================= */
+
 .line {
   position: relative;
-  width: 23.4285rem;
+
+  width: 23.4285rem; /* desktop */
   height: 0.125rem;
+
   margin-bottom: 1.25rem;
 
-  background: $border-muted;
-  opacity: 0.5;
+  /* fechado = só cinza */
+  background: #8A959B;
+  opacity: 1;
+
   overflow: hidden;
   transform: translateZ(0);
+
+  transition:
+    width 820ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 360ms ease;
 }
 
+/* barra rosa animada */
 .line::after {
   content: "";
   position: absolute;
@@ -38,20 +51,30 @@
   transform-origin: left center;
   transform: scaleX(0);
 
-  transition: transform 820ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* evita vazamento */
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    transform 820ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 120ms ease,
+    visibility 0ms linear 120ms;
 }
+
+/* ================= TEXT ================= */
 
 .question {
   margin: 0;
 
   font-family: Montserrat, sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 1.25rem;
   line-height: 1.5rem;
   letter-spacing: -0.01em;
   text-transform: uppercase;
 
-  color: $text-muted;
+  /* fechado */
+  color: #8A959B;
 
   transition: color 360ms ease;
 }
@@ -80,6 +103,8 @@
     transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* ================= ACTIVE ================= */
+
 .active {
   .line {
     opacity: 1;
@@ -87,6 +112,14 @@
 
   .line::after {
     transform: scaleX(1);
+
+    opacity: 1;
+    visibility: visible;
+
+    transition:
+      transform 820ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 120ms ease,
+      visibility 0ms;
   }
 
   .question {
@@ -100,9 +133,37 @@
   }
 }
 
-@media (hover: none) {
+/* ================= MOBILE ================= */
+
+@media (max-width: 26rem) {
+  /* remove outline no mobile */
   .item:focus,
   .item:focus-visible {
     outline: none;
+  }
+
+  .question {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.5rem; /* 24px */
+    letter-spacing: -0.01em;
+    font-weight: 500;
+  }
+
+  /* fechado */
+  .line {
+    width: 3.7428rem;
+    height: 0.125rem;
+    background: #8A959B;
+    opacity: 1;
+
+    margin-bottom: 1.25rem;
+  }
+
+  /* aberto */
+  .active {
+    .line {
+      width: 21.1904rem;
+      opacity: 1;
+    }
   }
 }

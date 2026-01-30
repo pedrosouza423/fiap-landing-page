@@ -1,12 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./FAQ.module.scss";
 import { faqMock } from "./FAQ.mock";
 import { FaqItem } from "./Item/FaqItem";
 
 export const FAQ = () => {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 26rem)");
+    const update = () => setIsMobile(mq.matches);
+
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   return (
     <section className={styles.faq}>
@@ -16,7 +26,7 @@ export const FAQ = () => {
           <p className={styles.subtitle}>{faqMock.header.subtitle}</p>
         </header>
 
-        <div className={styles.grid}>
+        <div className={isMobile ? styles.mobileList : styles.grid}>
           {faqMock.items.map((item) => (
             <FaqItem
               key={item.id}

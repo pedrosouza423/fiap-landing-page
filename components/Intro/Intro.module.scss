@@ -1,25 +1,51 @@
+@use "../../styles/variables" as *;
+
 .intro {
   width: 100%;
+  overflow-x: clip;
+  position: relative;
+
+  margin: 0;
+  padding: 0;
 }
 
-
 .imageWrapper {
+  width: 100%;
   max-width: 93.4375rem;
   margin: 3.3125rem auto 0;
   padding: 0 1rem;
 
   position: relative;
-  z-index: 1;
+  z-index: 2;
 
   img {
     width: 100%;
     height: auto;
     display: block;
     opacity: 0.3;
+
+    pointer-events: none;
+    user-select: none;
   }
 }
 
-.intro > :last-child {
-  margin-top: -4.375rem;
+.marqueeBottom {
   position: relative;
+  z-index: 3;
+  margin-top: -4.375rem;
+}
+
+@media (max-width: 26rem) {
+
+  .intro {
+    padding-bottom: 12.1875rem;
+  }
+
+  .imageWrapper {
+    display: none;
+  }
+
+  .marqueeBottom {
+    display: none;
+  }
 }

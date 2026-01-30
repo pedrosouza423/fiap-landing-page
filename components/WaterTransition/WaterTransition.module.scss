@@ -1,31 +1,38 @@
-
 @use "../../styles/variables" as *;
 
 .water {
   width: 100%;
+  background: $bg-page;
 
   margin-top: 8.125rem;
   margin-bottom: 17.625rem;
-
-  display: flex;
-  justify-content: center;
-
-  background: $bg-page;
 }
 
 .container {
   width: 100%;
-  max-width: 120rem;
+  height: 100vh;
 
-  padding: 0 1rem;
+  max-width: none;
+  padding: 0;
+
+  position: relative;
 }
 
+/* image fill do Next */
 .image {
   width: 100%;
-  height: auto;
-
+  height: 100%;
   display: block;
+
+  object-fit: cover;
+  object-position: center;
 
   user-select: none;
   pointer-events: none;
+}
+
+@media (max-width: 26rem) {
+  .water {
+    display: none;
+  }
 }

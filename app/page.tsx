@@ -15,7 +15,7 @@ export default function Home() {
       <Intro />
       <WaterTransition />
       <Courses />
-      {/* <FAQ /> */}
+      <FAQ />
     </>
   );
 }
