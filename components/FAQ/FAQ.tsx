@@ -23,7 +23,12 @@ export const FAQ = () => {
               item={item}
               isActive={activeId === item.id}
               onEnter={() => setActiveId(item.id)}
-              onLeave={() => setActiveId((prev) => (prev === item.id ? null : prev))}
+              onLeave={() =>
+                setActiveId((prev) => (prev === item.id ? null : prev))
+              }
+              onToggle={() =>
+                setActiveId((prev) => (prev === item.id ? null : item.id))
+              }
             />
           ))}
         </div>
